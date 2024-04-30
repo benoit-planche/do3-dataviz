@@ -1,0 +1,85 @@
+---
+title: "UntitledTP2.Rmd"
+output: pdf_document
+date: "2024-04-08"
+---
+
+```{r load-library, echo=FALSE}
+library(ggplot2)
+library(here)
+library(forcats)
+library(palmerpenguins)
+library(readxl)
+```
+
+```{r film-data,, echo=FALSE}
+boxoffice <- data.frame(
+  country = c("USA", "FRA", "UK", "IT"), # pays de production
+  number = c(51, 45, 03, 01)             # nombre de films
+)
+```
+
+```{r temp-head, echo=FALSE}
+head(boxoffice)
+```
+
+```{r temperatures-plot-y, echo=FALSE} 
+ggplot(boxoffice,
+       aes(x = fct_reorder(country, number),              
+           y = number,
+           fill = country)) +              
+  geom_col()
+```
+
+Représentation ordonné du nombre de films par pays de production le plus regardé en France
+
+\newpage
+
+# Pingouin
+
+Dans les diagrammes suivants nous allons chercher à représenter le nombre de male et de femelle par espèce de pingouin présent au Torgersen. Actuellement, trois  espèces sont présentes sur cette île : Adelie, Chinstrap, Gentoo.
+
+```{r penguin, echo=FALSE}
+penguins_nomissing <- na.omit(penguins)
+head(penguins_nomissing)
+my_table_penguin = table(penguins_nomissing$species)
+```
+
+```{r count-species-pengouin, echo=FALSE}
+my_data = data.frame( species = names(my_table_penguin), nb_individu = as.vector(my_table_penguin) )
+```
+
+```{r diagramme-nb-pingouin, echo=FALSE} 
+ggplot(my_data,
+       aes(x = fct_reorder(species, nb_individu),              
+           y = nb_individu)) +              
+  geom_col()
+```
+
+
+```{r diagramme-nb-pingouin-with-geom_bar, echo=FALSE}
+ggplot(penguins_nomissing,
+       aes(x = fct_relevel(species, "Chinstrap", "Gentoo", "Adelie"),
+           fill = sex)) +
+  geom_bar(position = "dodge")
+```
+Comparaison des espèces de pingouins (Chinstrap, Gentoo, Adelie) selon leur répartition entre mâles et femelles.
+
+# Parlement
+
+```{r data-parlement}
+my_data_parlement <- read_xlsx(
+  path = "/home/moi/Documents/visualisation/do3-dataviz/TP_travaux/women_in_parliament-historical_database-1945_to_2018.xlsx",
+  sheet = "Feuil1",
+  col_names = TRUE
+)
+head(my_data_parlement)
+```
+
+```{r subset}
+year_quatrième_rep <- subset(my_data_parlement, Year == "1946")
+data_france <- subset(year_quatrième_rep, Country == "France")
+head(data_france)
+pourcent_woman <- table(data_france$'% Of Women in Chamber')
+head(pourcent_woman)
+```

@@ -1,0 +1,42 @@
+---
+title: "TP3"
+output: pdf_document
+date: "2024-04-10"
+---
+
+```{r load-library, echo=FALSE}
+library(ggplot2)
+library(here)
+library(forcats)
+library(readr)
+library(tidyr)
+```
+
+# Jeu de donnée 1
+
+```{r setup, echo=FALSE}
+monDataset <- read_delim("/home/moi/Documents/visualisation/do3-dataviz/TP_travaux/rp2017_td_fam2.csv", 
+     delim = ";", escape_double = FALSE, col_types = cols(...8 = col_skip()), 
+     trim_ws = TRUE, skip = 6)
+couples <- na.omit(monDataset)
+colnames(couples) <- c("situation", "0", "1", "2", "3", "4+", "total")
+couples$situation <- c("mariees", "pacsees", "concubinage", "autre", "total")
+head(couples)
+```
+
+```{r pivot-data, echo=FALSE}
+monDatasetPivot <- pivot_longer(couples, cols =  c("0", "1", "2", "3", "4+"), names_to = "nombre_enfants", values_to = "valeur")
+head(monDatasetPivot)
+```
+
+```{r diagramme-couple, echo=FALSE}
+ggplot(monDatasetPivot,
+       aes(x = nombre_enfants,              
+           y = valeur/total,
+           group = situation,
+           color = situation)) +              
+  geom_line() +
+labs(x = "Nombre d'enfants",
+       y = "Pourcentage de personnes",
+       title = "Pourcentage de personnes en fonction du nombre d'enfants")
+```

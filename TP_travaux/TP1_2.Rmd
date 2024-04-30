@@ -1,0 +1,58 @@
+---
+title: "tp1_2"
+output: pdf_document
+date: "2024-04-02"
+---
+```{r load-here}
+library(ggplot2)
+library(here)
+```
+
+```{r temperatures}
+temps_average <- read.csv(file = here("data", "temp_average.csv"))
+```
+
+```{r temperatures-montpellier}
+temps_montpellier <- subset(temps_average, city == "Montpellier")
+```
+
+```{r temp-head}
+head(temps_montpellier)
+```
+
+```{r temperatures-plot-y}
+ggplot(temps_montpellier,
+       aes(x = day_of_year,              
+           y = temperature)) +              
+  geom_line()
+```
+
+
+```{r temperatures-head}
+head(temps_average)
+
+```
+
+```{r temperatures-plot-y-color}
+ggplot(temps_average,
+       aes(x = day_of_year,              
+           y = temperature,
+           color = city)) +              
+  geom_line()
+```
+
+```{r temperatures-plot-y-line}
+ggplot(temps_average,
+       aes(x = day_of_year,              
+           y = temperature,
+           linetype = city)) +              
+  geom_line()
+```
+
+```{r temperatures-plot-y-line-color-temp}
+ggplot(temps_average,
+       aes(x = day_of_year,              
+           y = temperature,
+           color = temperature)) +              
+  geom_line()
+```

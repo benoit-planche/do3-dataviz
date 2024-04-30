@@ -1,0 +1,52 @@
+---
+title: "myFirstRmarkdown"
+output: html_document
+date: "2024-04-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## My Frist expérience
+
+```{r poissons-experience}
+urne <- c(rep("rouge", 2000),           ## 2 000 poissons rouges
+          rep("bleue", 5000),           ## 5 000 poissons bleues
+          rep("verte", 3000))           ## 3 000 poissons vertes 
+
+n_exp <- 1000                           ## Nombre de fois où je fais l'expérience
+
+echantillon <- sample(urne,            ## échantillonne les boules
+                      n_exp,           ## n_exp fois
+                      replace = FALSE) ## sans remise
+```
+
+```{r poissons-resultats}
+res <- table(echantillon)             ## Résumé de l'échantillon
+res
+```
+
+```{r poissons-resultats-tracé}
+barplot(res)                          ## Diagramme en bar
+```
